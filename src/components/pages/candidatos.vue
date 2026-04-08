@@ -52,6 +52,11 @@ const normalizeKey = (value) =>
         .replace(/[^a-zA-Z0-9\s_-]/g, ' ')
         .toLocaleLowerCase('es');
 
+const needsPartyLogoWhiteBg = (party) => {
+    const normalized = normalizeKey(party);
+    return normalized.includes('renovacion') && normalized.includes('popular');
+};
+
 const FORCE_LIBERTY_LOGO_SRC = AVAILABLE_LOGOS.find((logo) => {
     const normalized = normalizeKey(logo.base);
     return normalized.includes('fuerza') && normalized.includes('libertad');
@@ -434,6 +439,9 @@ watch(
         // Si se usa crop, respetar el background transparente del diseño.
         if (currentCandidateMedia.value?.logoCrop) return;
 
+        // Renovación Popular: forzar fondo blanco para que el logo azul se vea.
+        if (needsPartyLogoWhiteBg(currentCandidateData.value?.party)) return;
+
         const color = await getLogoBackgroundColor(src);
         if (requestId !== logoBgColorRequestId) return;
         logoBgColor.value = color;
@@ -443,6 +451,11 @@ watch(
 
 const candidatoLogoWrapStyle = computed(() => {
     if (currentCandidateMedia.value?.logoCrop) return {};
+
+    if (needsPartyLogoWhiteBg(currentCandidateData.value?.party)) {
+        return { backgroundColor: 'var(--primary-white)' };
+    }
+
     if (!logoBgColor.value) return {};
     return { backgroundColor: logoBgColor.value };
 });
@@ -759,7 +772,7 @@ const onPlanAmbitoFocusOut = (event) => {
                                         :alt="option.party" loading="lazy" />
                                     <span v-else class="logo-picker-fallback" aria-hidden="true">{{
                                         option.party?.slice(0, 2)?.toUpperCase() ?? ''
-                                        }}</span>
+                                    }}</span>
                                 </button>
                             </div>
                         </div>

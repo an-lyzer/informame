@@ -4,7 +4,15 @@
 </script>
 
 <template>
- 
+
+        <div class="col-noticia">
+            
+        </div>
+        
+        <div class="col-otras-noticias">
+
+        </div>
+        
 </template>
 
 

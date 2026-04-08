@@ -111,6 +111,12 @@ const normalizeKey = (value) =>
         .replace(/[^a-z0-9]+/g, ' ')
         .trim();
 
+const needsLogoContrast = (logo) => {
+    const text = `${logo?.alt ?? ''} ${logo?.name ?? ''}`;
+    const normalized = normalizeKey(text);
+    return normalized.includes('renovacion') && normalized.includes('popular');
+};
+
 const STOP_TOKENS = new Set([
     'partido',
     'politico',
@@ -262,7 +268,7 @@ onBeforeUnmount(() => {
             <div v-for="logo in logos" :key="logo.name" class="opcion-cuadro" @click="selectByLogo(logo)" role="button"
                 tabindex="0" @keydown.enter.prevent="selectByLogo(logo)" @keydown.space.prevent="selectByLogo(logo)"
                 aria-label="Seleccionar partido">
-                <img :src="logo.src" :alt="logo.alt" loading="lazy" />
+                <img :src="logo.src" :alt="logo.alt" loading="lazy" :class="{ 'logo-white-badge': needsLogoContrast(logo) }" />
             </div>
         </div>
         <div class="home-icon" @click="scrollToNoticiasSemana" aria-label="Ir a noticias de la semana">
@@ -847,6 +853,13 @@ onBeforeUnmount(() => {
     height: 82%;
     object-fit: contain;
     display: block;
+}
+
+.logo-white-badge {
+    background: var(--primary-white);
+    border-radius: 10px;
+    padding: 6px;
+    box-sizing: border-box;
 }
 
 .opcion-cuadro:hover {
