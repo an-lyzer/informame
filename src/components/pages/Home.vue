@@ -3,6 +3,9 @@ import { computed, onBeforeUnmount, onMounted, nextTick, ref } from 'vue';
 import intencionVotoBarrasImg from '../../assets/intencion_voto_barras.png';
 import intencionVotoPresidenteImg from '../../assets/intencion_voto_presidente.png';
 import intencionSenadoFebImg from '../../assets/intencion_senado_feb.png';
+import noticia1Img from '../../assets/noticias/noticia1.png';
+import noticia2Img from '../../assets/noticias/noticia2.png';
+import noticia3Img from '../../assets/noticias/noiticia3.png';
 import { Icon } from "@iconify/vue";
 import candidatosData from '../../data/candidatos.json';
 
@@ -263,7 +266,7 @@ onBeforeUnmount(() => {
             </div>
         </div>
         <div class="home-icon" @click="scrollToNoticiasSemana" aria-label="Ir a noticias de la semana">
-            <svg class="flechita-icono" width="74" height="74" viewBox="0 0 74 74" fill="none"
+            <svg class="flechita-icono" width="59.2" height="59.2" viewBox="0 0 74 74" fill="none"
                 xmlns="http://www.w3.org/2000/svg" focusable="false">
                 <circle cx="36.731" cy="36.731" r="36.731" fill="var(--primary-yellow)" />
                 <path d="M15.5828 27.4554L37.1019 50.4586L58.6211 27.4554" stroke="var(--primary-black)"
@@ -281,24 +284,25 @@ onBeforeUnmount(() => {
 
         <div class="noticias-columnas">
             <div class="noticia1">
-                <img class="noticia-imagen" src="/noticia-placeholder.svg" alt="" />
-                <h4 class="noticia-titulo">Debate presidencial se realizaría en seis fechas, con grupos de 12 candidatos
-                    por jornada, según propuesta del JNE</h4>
-                <h5 class="noticia-meta">Abril 12 - 4 min leer</h5>
+                <img class="noticia-imagen" :src="noticia1Img"
+                    alt="Candidatos a la presidencia despliegan giras intensivas en regiones" />
+                <h4 class="noticia-titulo">Candidatos a la presidencia despliegan giras intensivas en regiones: ¿Dónde
+                    estuvieron y hacia dónde se dirigen?</h4>
+                <h5 class="noticia-meta">Abril 7 - 5 min leer</h5>
             </div>
 
             <div class="noticia2">
-                <img class="noticia-imagen" src="/noticia-placeholder.svg" alt="" />
-                <h4 class="noticia-titulo">Debate presidencial se realizaría en seis fechas, con grupos de 12 candidatos
-                    por jornada, según propuesta del JNE</h4>
-                <h5 class="noticia-meta">Abril 12 - 4 min leer</h5>
+                <img class="noticia-imagen" :src="noticia2Img" alt="Keiko se estanca en encuesta IEP" />
+                <h4 class="noticia-titulo">Keiko se estanca, mientras que López Aliaga, Carlos Álvarez y Roberto Sánchez
+                    empatan en encuesta IEP</h4>
+                <h5 class="noticia-meta">Abril 5 - 4 min leer</h5>
             </div>
 
             <div class="noticia3">
-                <img class="noticia-imagen" src="/noticia-placeholder.svg" alt="" />
-                <h4 class="noticia-titulo">Debate presidencial se realizaría en seis fechas, con grupos de 12 candidatos
-                    por jornada, según propuesta del JNE</h4>
-                <h5 class="noticia-meta">Abril 12 - 4 min leer</h5>
+                <img class="noticia-imagen" :src="noticia3Img" alt="Multa por no votar en Perú 2026" />
+                <h4 class="noticia-titulo">Este es el valor de la multa por no votar en las elecciones de Perú en 2026
+                </h4>
+                <h5 class="noticia-meta">Abril 7 - 4 min leer</h5>
             </div>
         </div>
 
@@ -322,7 +326,7 @@ onBeforeUnmount(() => {
                 <div class="estadistica-stage" aria-live="polite">
                     <div class="estadistica-track" :style="{ transform: `translateX(-${activeStatIndex * 100}%)` }">
                         <div v-for="s in stats" :key="s.title" class="estadistica-slide">
-                            <h5 class="estadistica-titulo">{{ s.title }}</h5>
+                            <h4 class="estadistica-titulo">{{ s.title }}</h4>
                             <img class="estadistica-imagen" :src="s.imageSrc" :alt="s.title" />
                         </div>
                     </div>
@@ -381,12 +385,13 @@ onBeforeUnmount(() => {
 .search-autocomplete {
     position: relative;
     width: 100%;
-    max-width: 1040px;
+    max-width: 832px;
+    margin: 0 auto;
 }
 
 .search-icon {
     position: absolute;
-    right: 26px;
+    right: 20.8px;
     top: 50%;
     transform: translateY(-50%);
     color: var(--primary-white);
@@ -440,33 +445,30 @@ onBeforeUnmount(() => {
 }
 
 .flechita-icono {
-    width: 74px;
-    height: 74px;
+    width: 59.2px;
+    height: 59.2px;
     display: block;
 }
 
 .seccion-noticias {
-    height: 745px;
+    height: 700px;
 }
 
 .cita-dia {
-    height: 212px;
+    height: 169.6px;
     background: var(--primary-white);
     color: var(--primary-black);
-    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     padding-left: 80px;
     padding-right: 80px;
     box-sizing: border-box;
     text-align: center;
-
-
 }
 
 .cita-dia h3 {
-    position: absolute;
-    top: 45px;
-    left: 80px;
-    right: 80px;
     margin: 0;
     font-weight: 900;
     line-height: 1;
@@ -475,10 +477,6 @@ onBeforeUnmount(() => {
 }
 
 .cita-dia h4 {
-    position: absolute;
-    top: 85px;
-    left: 80px;
-    right: 80px;
     margin: 0;
     font-style: italic;
     font-weight: 400;
@@ -539,17 +537,17 @@ onBeforeUnmount(() => {
 }
 
 .seccion-estadisticas {
-    padding-bottom: 80px;
+    padding-bottom: 64px;
 }
 
 .estadisticas-header {
-    padding-left: 80px;
-    padding-right: 80px;
+    padding-left: 64px;
+    padding-right: 64px;
     text-align: right;
 }
 
 .estadisticas-header h2 {
-    padding-top: 65px;
+    padding-top: 52px;
     font-weight: 900;
     line-height: 1.264;
     margin: 0;
@@ -560,7 +558,7 @@ onBeforeUnmount(() => {
 .estadisticas-divider {
     height: 2px;
     background: var(--primary-white);
-    margin-top: 30px;
+    margin-top: 24px;
     position: relative;
 }
 
@@ -576,9 +574,9 @@ onBeforeUnmount(() => {
 
 .estadisticas-columnas {
     display: flex;
-    gap: 40px;
-    padding-right: 80px;
-    padding-top: 76px;
+    gap: 32px;
+    padding-right: 64px;
+    padding-top: 60.8px;
     box-sizing: border-box;
     align-items: flex-start;
 }
@@ -590,7 +588,7 @@ onBeforeUnmount(() => {
 
 .estadistica1 {
     flex: 2;
-    padding-left: 154px;
+    padding-left: 123.2px;
 }
 
 .estadistica-stage {
@@ -694,14 +692,14 @@ onBeforeUnmount(() => {
 @media (max-width: 1024px) {
     .estadisticas-columnas {
         flex-direction: column;
-        gap: 28px;
-        padding-left: 40px;
-        padding-right: 40px;
+        gap: 22.4px;
+        padding-left: 32px;
+        padding-right: 32px;
     }
 
     .estadisticas-header {
-        padding-left: 40px;
-        padding-right: 40px;
+        padding-left: 32px;
+        padding-right: 32px;
     }
 
     .estadistica1 {
@@ -711,13 +709,13 @@ onBeforeUnmount(() => {
 
 @media (max-width: 600px) {
     .estadisticas-columnas {
-        padding-left: 12px;
-        padding-right: 12px;
+        padding-left: 9.6px;
+        padding-right: 9.6px;
     }
 
     .estadisticas-header {
-        padding-left: 12px;
-        padding-right: 12px;
+        padding-left: 9.6px;
+        padding-right: 9.6px;
     }
 
     .estadistica-tabs {
@@ -737,8 +735,10 @@ onBeforeUnmount(() => {
 .noticia-imagen {
     width: 100%;
     height: auto;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
     display: block;
-    padding-top: 9px;
+    margin-top: 9px;
 }
 
 .noticia-titulo {
@@ -758,7 +758,7 @@ onBeforeUnmount(() => {
 .elige-texto {
     text-align: center;
     margin-top: 16px;
-    font-size: 25.19px;
+    font-size: 20.2px;
     color: var(--primary-white);
     font-family: 'Merriweather';
     font-weight: 400;
@@ -767,14 +767,14 @@ onBeforeUnmount(() => {
 
 .opciones-grid {
     display: grid;
-    grid-template-columns: repeat(11, 107px);
-    grid-template-rows: repeat(4, 101px);
-    gap: 5px;
+    grid-template-columns: repeat(11, 85.6px);
+    grid-template-rows: repeat(4, 80.8px);
+    gap: 4px;
     justify-content: center;
-    margin: 16px auto 0 auto;
+    margin: 12.8px auto 0 auto;
     width: max-content;
-    padding-left: 60px;
-    padding-right: 60px;
+    padding-left: 48px;
+    padding-right: 48px;
     box-sizing: border-box;
 }
 
@@ -782,18 +782,18 @@ onBeforeUnmount(() => {
     .opciones-grid {
         padding-left: 1rem;
         padding-right: 1rem;
-        width: min(32rem, 100%);
+        width: min(25.6rem, 100%);
         max-width: 100%;
         grid-template-columns: repeat(8, minmax(3.25rem, 1fr));
         grid-template-rows: none;
-        grid-auto-rows: 3.25rem;
-        gap: 0.75rem;
+        grid-auto-rows: 2.6rem;
+        gap: 0.6rem;
     }
 
     .opciones-grid .opcion-cuadro {
         width: 100%;
         height: 100%;
-        border-radius: 0.75rem;
+        border-radius: 0.6rem;
         border-width: 1px;
     }
 }
@@ -802,30 +802,30 @@ onBeforeUnmount(() => {
     .opciones-grid {
         padding-left: 0.75rem;
         padding-right: 0.75rem;
-        width: min(22rem, 100%);
+        width: min(17.6rem, 100%);
         max-width: 100%;
         grid-template-columns: repeat(5, minmax(2.8rem, 1fr));
         grid-template-rows: none;
-        grid-auto-rows: 2.8rem;
-        gap: 0.7rem;
+        grid-auto-rows: 2.24rem;
+        gap: 0.56rem;
     }
 
     .opciones-grid .opcion-cuadro {
         width: 100%;
         min-width: 0;
         height: 100%;
-        border-radius: 0.5rem;
+        border-radius: 0.4rem;
         border-width: 1px;
     }
 }
 
 
 .opcion-cuadro {
-    width: 100px;
-    height: 93px;
+    width: 80px;
+    height: 74.4px;
     background: var(--primary-white);
-    border-radius: 12px;
-    border: 1.5px solid #d1d1d1;
+    border-radius: 9.6px;
+    border: 1.2px solid #d1d1d1;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -860,7 +860,7 @@ onBeforeUnmount(() => {
     display: block;
     margin: 40px auto 0 auto;
     text-align: center;
-    font-size: 75.6px;
+    font-size: 60.48px;
     padding-left: 180px;
     padding-right: 180px;
     line-height: 1.15;
@@ -876,17 +876,17 @@ onBeforeUnmount(() => {
 
 
 .circular-search {
-    border-radius: 19px;
-    padding: 18px 64px 18px 32px;
-    font-size: 29px;
+    border-radius: 15.2px;
+    padding: 14.4px 51.2px 14.4px 25.6px;
+    font-size: 23.2px;
     font-weight: 400;
     outline: none;
-    border: 1.5px solid var(--primary-white);
+    border: 1.2px solid var(--primary-white);
     background: var(--primary-dark);
     color: var(--primary-white);
     caret-color: var(--primary-white);
     width: 100%;
-    max-width: 1040px;
+    max-width: 832px;
     text-align: left;
     transition: border 0.2s;
 }
@@ -901,8 +901,12 @@ onBeforeUnmount(() => {
 
 
 @media (max-width: 1024px) {
+    .search-autocomplete {
+        max-width: 480px;
+    }
+
     .home-title {
-        font-size: 48px;
+        font-size: 33.44px;
         padding-left: 40px;
         padding-right: 40px;
     }
@@ -913,27 +917,31 @@ onBeforeUnmount(() => {
     }
 
     .circular-search {
-        font-size: 22px;
-        max-width: 600px;
+        font-size: 17.6px;
+        max-width: 480px;
     }
 }
 
 @media (max-width: 600px) {
+    .search-autocomplete {
+        max-width: 72vw;
+    }
+
     .circular-search {
-        font-size: 16px;
-        max-width: 90vw;
-        padding: 12px 44px 12px 16px;
+        font-size: 12.8px;
+        max-width: 72vw;
+        padding: 9.6px 35.2px 9.6px 12.8px;
     }
 
     .search-icon {
-        right: 16px;
+        right: 12.8px;
         stroke-width: 1.5;
     }
 }
 
 @media (max-width: 1024px) {
     .home-title {
-        font-size: 48px;
+        font-size: 33.44px;
         padding-left: 40px;
         padding-right: 40px;
     }
@@ -941,7 +949,7 @@ onBeforeUnmount(() => {
 
 @media (max-width: 600px) {
     .home-title {
-        font-size: 32px;
+        font-size: 25.6px;
         padding-left: 12px;
         padding-right: 12px;
         margin-top: 40px;

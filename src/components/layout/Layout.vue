@@ -60,8 +60,8 @@ const menuOpen = ref(false);
     justify-content: space-between;
     padding: 0 10rem;
     background: var(--primary-yellow);
-    height: 6.25rem;
-    min-height: 6.25rem;
+    height: 5rem;
+    min-height: 5rem;
     box-sizing: border-box;
 }
 
@@ -87,9 +87,9 @@ const menuOpen = ref(false);
 }
 
 .check {
-    font-size: 3.2rem;
+    font-size: 2.56rem;
     color: var(--primary-black);
-    margin-top: 0.25rem;
+    margin-top: 0.2rem;
     display: inline-block;
     vertical-align: middle;
 }
@@ -165,7 +165,7 @@ const menuOpen = ref(false);
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
-    padding: 5rem 2rem 2rem 2rem;
+    padding: 4rem 2rem 2rem 2rem;
     z-index: 9999;
     align-items: flex-end;
 }
@@ -196,8 +196,8 @@ const menuOpen = ref(false);
 @media (max-width: 64em) {
     .header {
         padding: 0 3.75rem;
-        height: 5rem;
-        min-height: 5rem;
+        height: 4rem;
+        min-height: 4rem;
     }
 
     .paginas {
@@ -211,15 +211,15 @@ const menuOpen = ref(false);
     }
 
     .logo h1 {
-        font-size: 2.2rem;
+        font-size: 1.76rem;
     }
 }
 
 @media (max-width: 43.75em) {
     .header {
-        padding: 0.75rem 1rem;
-        height: 5rem;
-        min-height: 5rem;
+        padding: 0.6rem 1rem;
+        height: 4rem;
+        min-height: 4rem;
     }
 
     .paginas {
@@ -235,7 +235,7 @@ const menuOpen = ref(false);
     }
 
     .logo h1 {
-        font-size: 1.2rem;
+        font-size: 0.96rem;
         padding-left: 1.1rem;
     }
 }

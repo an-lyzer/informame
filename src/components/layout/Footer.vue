@@ -22,12 +22,12 @@ import { Icon } from '@iconify/vue';
                 <div class="footer-social">
                     <a class="social-btn" href="#" aria-label="Instagram" @click.prevent>
                         <span class="social-circle" aria-hidden="true">
-                            <Icon icon="mdi:instagram" width="28" height="28" />
+                            <Icon icon="mdi:instagram" width="22.4" height="22.4" />
                         </span>
                     </a>
                     <a class="social-btn" href="#" aria-label="TikTok" @click.prevent>
                         <span class="social-circle" aria-hidden="true">
-                            <Icon icon="simple-icons:tiktok" width="26" height="26" />
+                            <Icon icon="simple-icons:tiktok" width="20.8" height="20.8" />
                         </span>
                     </a>
                 </div>
@@ -52,7 +52,7 @@ import { Icon } from '@iconify/vue';
 .site-footer {
     background: var(--primary-yellow);
     color: var(--primary-black);
-    height: 383px;
+    height: 306.4px;
     display: flex;
     flex-direction: column;
 }
@@ -67,8 +67,8 @@ import { Icon } from '@iconify/vue';
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
     align-items: start;
-    column-gap: 43px;
-    padding: 44px 10rem 0;
+    column-gap: 34.4px;
+    padding: 35.2px 8rem 0;
 }
 
 .footer-col {
@@ -82,39 +82,39 @@ import { Icon } from '@iconify/vue';
 }
 
 .footer-col>.footer-title+* {
-    margin-top: 38px;
+    margin-top: 30.4px;
 }
 
 .footer-col> :not(.footer-title)+ :not(.footer-title) {
-    margin-top: 27px;
+    margin-top: 21.6px;
 }
 
 .footer-title {
     margin: 0;
     font-weight: 700;
     color: var(--primary-black);
-    font-size: 24.2px;
+    font-size: 19.36px;
     line-height: 1.2;
 }
 
 .footer-link {
     color: var(--primary-black);
     text-decoration: none;
-    font-size: 20.2px;
+    font-size: 16.16px;
     font-weight: 400;
     line-height: 1.25;
 }
 
 .footer-link:hover {
     text-decoration: underline;
-    text-decoration-thickness: 2px;
-    text-underline-offset: 3px;
+    text-decoration-thickness: 1.6px;
+    text-underline-offset: 2.4px;
 }
 
 .footer-text {
     margin: 0;
     color: var(--primary-black);
-    font-size: 20.2px;
+    font-size: 16.16px;
     font-weight: 400;
     line-height: 1.25;
 }
@@ -122,7 +122,7 @@ import { Icon } from '@iconify/vue';
 .footer-social {
     display: flex;
     align-items: center;
-    gap: 1.4rem;
+    gap: 1.12rem;
     padding-top: 0;
     justify-content: flex-start;
 }
@@ -133,8 +133,8 @@ import { Icon } from '@iconify/vue';
 }
 
 .social-circle {
-    width: 58px;
-    height: 58px;
+    width: 46.4px;
+    height: 46.4px;
     border-radius: 999px;
     background: var(--primary-black);
     display: inline-flex;
@@ -148,13 +148,13 @@ import { Icon } from '@iconify/vue';
     display: flex;
     align-items: flex-end;
     justify-content: space-between;
-    padding: 2.5rem 62px 2.2rem;
+    padding: 2rem 49.6px 1.76rem;
 }
 
 .footer-small {
     margin: 0;
     color: var(--primary-black);
-    font-size: 14px;
+    font-size: 11.2px;
     font-weight: 400;
     line-height: 1.25;
 }
@@ -167,12 +167,12 @@ import { Icon } from '@iconify/vue';
 
     .footer-top,
     .footer-bottom {
-        padding-left: 3.75rem;
-        padding-right: 3.75rem;
+        padding-left: 3rem;
+        padding-right: 3rem;
     }
 
     .footer-top {
-        column-gap: 24px;
+        column-gap: 19.2px;
     }
 }
 
@@ -183,8 +183,8 @@ import { Icon } from '@iconify/vue';
 
     .footer-top {
         grid-template-columns: 1fr;
-        row-gap: 2.4rem;
-        padding: 3rem 1rem 2rem;
+        row-gap: 1.92rem;
+        padding: 2.4rem 0.8rem 1.6rem;
     }
 
     .footer-col {
@@ -196,8 +196,8 @@ import { Icon } from '@iconify/vue';
     .footer-bottom {
         flex-direction: column;
         align-items: flex-start;
-        gap: 0.9rem;
-        padding: 1.6rem 1rem 1.4rem;
+        gap: 0.72rem;
+        padding: 1.28rem 0.8rem 1.12rem;
     }
 }
 </style>

@@ -356,6 +356,97 @@ const currentCandidateMedia = computed(() => {
     };
 });
 
+const logoBgColor = ref(null);
+let logoBgColorRequestId = 0;
+
+const rgbCss = (r, g, b) => `rgb(${r}, ${g}, ${b})`;
+
+const extractImageCornerColor = (imgEl) => {
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d', { willReadFrequently: true });
+    if (!ctx) return null;
+
+    const targetSize = 32;
+    canvas.width = targetSize;
+    canvas.height = targetSize;
+
+    ctx.clearRect(0, 0, targetSize, targetSize);
+    ctx.drawImage(imgEl, 0, 0, targetSize, targetSize);
+
+    const data = ctx.getImageData(0, 0, targetSize, targetSize).data;
+    const pixelAt = (x, y) => {
+        const idx = (y * targetSize + x) * 4;
+        return {
+            r: data[idx] ?? 0,
+            g: data[idx + 1] ?? 0,
+            b: data[idx + 2] ?? 0,
+            a: data[idx + 3] ?? 0,
+        };
+    };
+
+    const samplePoints = [
+        [1, 1],
+        [targetSize - 2, 1],
+        [1, targetSize - 2],
+        [targetSize - 2, targetSize - 2],
+        [3, 3],
+        [targetSize - 4, 3],
+        [3, targetSize - 4],
+        [targetSize - 4, targetSize - 4],
+    ];
+
+    for (const [x, y] of samplePoints) {
+        const { r, g, b, a } = pixelAt(x, y);
+        if (a < 16) continue;
+        return rgbCss(r, g, b);
+    }
+
+    return null;
+};
+
+const getLogoBackgroundColor = (src) => {
+    if (!src) return Promise.resolve(null);
+    if (typeof window === 'undefined') return Promise.resolve(null);
+
+    return new Promise((resolve) => {
+        const img = new Image();
+        img.decoding = 'async';
+        img.loading = 'eager';
+
+        img.onload = () => {
+            try {
+                resolve(extractImageCornerColor(img));
+            } catch {
+                resolve(null);
+            }
+        };
+        img.onerror = () => resolve(null);
+        img.src = src;
+    });
+};
+
+watch(
+    () => currentCandidateMedia.value?.logoSrc,
+    async (src) => {
+        const requestId = (logoBgColorRequestId += 1);
+        logoBgColor.value = null;
+
+        // Si se usa crop, respetar el background transparente del diseño.
+        if (currentCandidateMedia.value?.logoCrop) return;
+
+        const color = await getLogoBackgroundColor(src);
+        if (requestId !== logoBgColorRequestId) return;
+        logoBgColor.value = color;
+    },
+    { immediate: true },
+);
+
+const candidatoLogoWrapStyle = computed(() => {
+    if (currentCandidateMedia.value?.logoCrop) return {};
+    if (!logoBgColor.value) return {};
+    return { backgroundColor: logoBgColor.value };
+});
+
 const logoPickerOptions = computed(() => {
     const list = Array.isArray(candidatosData) ? candidatosData : [];
     return list
@@ -668,7 +759,7 @@ const onPlanAmbitoFocusOut = (event) => {
                                         :alt="option.party" loading="lazy" />
                                     <span v-else class="logo-picker-fallback" aria-hidden="true">{{
                                         option.party?.slice(0, 2)?.toUpperCase() ?? ''
-                                    }}</span>
+                                        }}</span>
                                 </button>
                             </div>
                         </div>
@@ -850,7 +941,7 @@ const onPlanAmbitoFocusOut = (event) => {
                             </div>
                         </div>
                         <div v-if="currentCandidateMedia.logoSrc" class="candidato-perfil-logo-wrap"
-                            :class="{ 'is-crop': currentCandidateMedia.logoCrop }">
+                            :class="{ 'is-crop': currentCandidateMedia.logoCrop }" :style="candidatoLogoWrapStyle">
                             <img class="candidato-perfil-logo" :src="currentCandidateMedia.logoSrc"
                                 :alt="currentCandidateData?.party ?? 'Partido'" />
                         </div>
@@ -932,7 +1023,7 @@ const onPlanAmbitoFocusOut = (event) => {
 
 .candidatos-title {
     margin: 0;
-    font-size: 49px;
+    font-size: 41.8px;
     font-weight: 900;
     line-height: 1.15;
     color: var(--primary-white);
@@ -972,7 +1063,7 @@ const onPlanAmbitoFocusOut = (event) => {
 }
 
 .candidato-perfil-img-wrap {
-    width: 90%;
+    width: 45%;
     display: block;
     position: relative;
 }
@@ -1008,22 +1099,22 @@ const onPlanAmbitoFocusOut = (event) => {
 .candidato-perfil-initials {
     color: var(--primary-yellow);
     font-weight: 900;
-    font-size: 64px;
+    font-size: 32px;
     line-height: 1;
 }
 
 .candidato-perfil-logo-wrap {
     position: absolute;
-    right: 14px;
-    bottom: 14px;
-    width: 110px;
-    height: 110px;
+    right: 7px;
+    bottom: 7px;
+    width: 55px;
+    height: 55px;
     border-radius: 999px;
     background: var(--primary-white);
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 10px;
+    padding: 5px;
     z-index: 2;
     pointer-events: none;
     overflow: hidden;

@@ -5,6 +5,29 @@ h3 { font-size: clamp(1.7rem, 3vw, 29px); }
 h4 { font-size: clamp(1.4rem, 2.5vw, 24.2px); }
 h5 { font-size: clamp(1.2rem, 2vw, 20.2px); }
 p  { font-size: clamp(0.9rem, 1.5vw, 14px); }
+
+/*
+  Ajuste solicitado: reducir el contenido del layout MAIN al 80%.
+  Se aplica sólo dentro de `.layout-main` para no afectar header/footer.
+*/
+.layout-main {
+  --main-scale: 0.8;
+  font-size: 0.8em;
+  padding: 32px 0;
+}
+
+.layout-main h1 { font-size: clamp(1.76rem, 4vw, 33.44px); }
+.layout-main h2 { font-size: clamp(1.6rem, 3.2vw, 27.84px); }
+.layout-main h3 { font-size: clamp(1.36rem, 2.4vw, 23.2px); }
+.layout-main h4 { font-size: clamp(1.12rem, 2vw, 19.36px); }
+.layout-main h5 { font-size: clamp(0.96rem, 1.6vw, 16.16px); }
+.layout-main p  { font-size: clamp(0.72rem, 1.2vw, 11.2px); }
+
+.layout-main button,
+.layout-main .btn {
+  font-size: calc(16px * var(--main-scale));
+  padding: calc(12px * var(--main-scale)) calc(24px * var(--main-scale));
+}
 /* Ocultar elementos de Vue Devtools en desarrollo */
 .vue-devtools__anchor-btn.panel-entry-btn,
 .vue-devtools__panel {
@@ -68,6 +91,7 @@ main {
   min-height: calc(100vh - 200px);
   padding: 40px 0;
 }
+
 
 /* Footer */
 footer {
