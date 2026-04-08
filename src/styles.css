@@ -1,0 +1,115 @@
+/* Tamaños de fuente para títulos y párrafos */
+h1 { font-size: clamp(2.2rem, 5vw, 41.8px); }
+h2 { font-size: clamp(2rem, 4vw, 34.8px); }
+h3 { font-size: clamp(1.7rem, 3vw, 29px); }
+h4 { font-size: clamp(1.4rem, 2.5vw, 24.2px); }
+h5 { font-size: clamp(1.2rem, 2vw, 20.2px); }
+p  { font-size: clamp(0.9rem, 1.5vw, 14px); }
+/* Ocultar elementos de Vue Devtools en desarrollo */
+.vue-devtools__anchor-btn.panel-entry-btn,
+.vue-devtools__panel {
+  display: none !important;
+}
+/* Paleta de colores principal */
+:root {
+  --primary-yellow: #FFD700;
+  --primary-black: #121212;
+  --primary-dark: #2D3436;
+  --primary-white: #F5F5F5;
+}
+
+/* Global Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  overflow-y: scroll;
+  scrollbar-gutter: stable;
+}
+
+body {
+  font-family: Verdana;
+  background-color: var(--primary-black);
+  color: var(--primary-white);
+  line-height: 1.6;
+}
+
+  /* Fuente para header y footer */
+  header, footer, a{
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+  }
+
+  /* Fuente para el resto del sitio */
+  body, main, section, article, div, p, span, h1, h2, h3, h4, h5, h6, ul, ol, li, input, button, textarea, select, label {
+    font-family: 'Merriweather';
+  }
+.vue-devtools__anchor-btn.panel-entry-btn {
+  display: none !important;
+}
+/* Container */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* Header */
+header {
+  background-color: var(--primary-dark);
+  padding: 20px 0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* Main Content */
+main {
+  min-height: calc(100vh - 200px);
+  padding: 40px 0;
+}
+
+/* Footer */
+footer {
+  background-color: var(--primary-dark);
+  padding: 20px 0;
+  text-align: center;
+  margin-top: 40px;
+}
+
+/* Buttons */
+button,
+.btn {
+  background-color: #e50914;
+  color: var(--primary-white);
+  border: none;
+  padding: 12px 24px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+button:hover,
+.btn:hover {
+  background-color: #c40812;
+}
+
+/* Links */
+a {
+  color: var(--primary-black);
+  text-decoration: none;
+  transition: color 0.3s ease;
+ 
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .container {
+    padding: 0 15px;
+  }
+
+  main {
+    padding: 20px 0;
+  }
+}
