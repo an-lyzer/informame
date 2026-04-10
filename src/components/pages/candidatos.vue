@@ -8,6 +8,8 @@ import keikoImgSrc from '../../assets/imagenes candidato/Keiko/keiko.jpeg';
 import vice1ImgSrc from '../../assets/imagenes candidato/Lescano/1era_vice.jpg';
 import vice2ImgSrc from '../../assets/imagenes candidato/Lescano/2da_vice.jpg';
 import candidatosData from '../../data/candidatos.json';
+import denunciasPartidosData from '../../data/denuncias_partidos.json';
+import investigacionesCandidatoData from '../../data/investigaciones_candidato.json';
 
 const CANDIDATE_PHOTO_MODULES = import.meta.glob('../../assets/imagenes candidato/**/*.{png,jpg,jpeg,webp}', {
     eager: true,
@@ -51,6 +53,154 @@ const normalizeKey = (value) =>
         .replace(/([a-z])([A-Z])/g, '$1 $2')
         .replace(/[^a-zA-Z0-9\s_-]/g, ' ')
         .toLocaleLowerCase('es');
+
+const normalizePartyForDenuncias = (value) =>
+    normalizeKey(value)
+        .replace(/\bpartido\b/g, ' ')
+        .replace(/\bpolitico\b/g, ' ')
+        .replace(/\bpolitica\b/g, ' ')
+        .replace(/\s+/g, ' ')
+        .trim();
+
+const normalizeCandidateName = (value) =>
+    normalizeKey(value)
+        .replace(/\s+/g, ' ')
+        .trim();
+
+const DENUNCIAS_PARTIDOS = Array.isArray(denunciasPartidosData?.partidos) ? denunciasPartidosData.partidos : [];
+
+const INVESTIGACIONES_CANDIDATO = Array.isArray(investigacionesCandidatoData?.investigaciones)
+    ? investigacionesCandidatoData.investigaciones
+    : [];
+
+const CANDIDATE_NAME_STOP_WORDS = new Set(['de', 'del', 'la', 'las', 'los', 'y']);
+
+const tokenizeCandidateName = (value) => {
+    const normalized = normalizeCandidateName(value);
+    return normalized
+        .split(/[\s_-]+/)
+        .map((t) => t.trim())
+        .filter(Boolean)
+        .filter((t) => !CANDIDATE_NAME_STOP_WORDS.has(t));
+};
+
+const findInvestigacionesByCandidate = ({ partido, candidato } = {}) => {
+    const candidatoKey = normalizeCandidateName(candidato);
+    if (!candidatoKey) return 0;
+
+    const partidoKey = normalizePartyForDenuncias(partido);
+
+    // 1) Match exacto por (partido + candidato)
+    for (const row of INVESTIGACIONES_CANDIDATO) {
+        const rowCandidatoKey = normalizeCandidateName(row?.candidato);
+        if (!rowCandidatoKey || rowCandidatoKey !== candidatoKey) continue;
+        const rowPartidoKey = normalizePartyForDenuncias(row?.partido);
+        if (partidoKey && rowPartidoKey && rowPartidoKey === partidoKey) {
+            return Number(row?.investigaciones ?? 0) || 0;
+        }
+    }
+
+    // 2) Match exacto por candidato (sin partido)
+    for (const row of INVESTIGACIONES_CANDIDATO) {
+        const rowCandidatoKey = normalizeCandidateName(row?.candidato);
+        if (rowCandidatoKey && rowCandidatoKey === candidatoKey) {
+            return Number(row?.investigaciones ?? 0) || 0;
+        }
+    }
+
+    // 3) Fallback por parecido (tokens)
+    const candTokens = tokenizeCandidateName(candidato);
+    if (!candTokens.length) return 0;
+    const candSet = new Set(candTokens);
+
+    let best = null;
+    let bestScore = 0;
+
+    for (const row of INVESTIGACIONES_CANDIDATO) {
+        const rowCandidato = row?.candidato;
+        if (!rowCandidato) continue;
+
+        const rowTokens = tokenizeCandidateName(rowCandidato);
+        if (!rowTokens.length) continue;
+        const rowSet = new Set(rowTokens);
+
+        let intersection = 0;
+        for (const t of candSet) if (rowSet.has(t)) intersection += 1;
+        const union = candSet.size + rowSet.size - intersection;
+        const jaccard = union ? intersection / union : 0;
+
+        let score = jaccard;
+
+        const rowPartidoKey = normalizePartyForDenuncias(row?.partido);
+        if (partidoKey && rowPartidoKey && rowPartidoKey === partidoKey) score += 0.25;
+
+        if (score > bestScore) {
+            bestScore = score;
+            best = row;
+        }
+    }
+
+    if (best && bestScore >= 0.6) {
+        return Number(best?.investigaciones ?? 0) || 0;
+    }
+
+    return 0;
+};
+
+const findDenunciasByParty = (party) => {
+    const partyKey = normalizePartyForDenuncias(party);
+    if (!partyKey) return null;
+
+    let direct = null;
+    for (const row of DENUNCIAS_PARTIDOS) {
+        const rowKey = normalizePartyForDenuncias(row?.partido);
+        if (!rowKey) continue;
+        if (rowKey === partyKey) {
+            direct = row;
+            break;
+        }
+    }
+    if (direct) return direct;
+
+    // Fallback por parecido (tokens + inclusion)
+    const partyTokens = tokenize(party);
+    if (!partyTokens.length) return null;
+
+    const partyTokenSet = new Set(partyTokens);
+    const partyJoined = partyTokens.join('');
+
+    let best = null;
+    let bestScore = 0;
+
+    for (const row of DENUNCIAS_PARTIDOS) {
+        const rowName = row?.partido;
+        if (!rowName) continue;
+
+        const rowTokens = tokenize(rowName);
+        if (!rowTokens.length) continue;
+
+        const rowTokenSet = new Set(rowTokens);
+
+        let intersection = 0;
+        for (const t of partyTokenSet) if (rowTokenSet.has(t)) intersection += 1;
+        const union = partyTokenSet.size + rowTokenSet.size - intersection;
+        const jaccard = union ? intersection / union : 0;
+
+        let score = jaccard;
+
+        const rowJoined = rowTokens.join('');
+        if (rowJoined && partyJoined) {
+            if (rowJoined.includes(partyJoined) || partyJoined.includes(rowJoined)) score += 0.35;
+        }
+
+        if (score > bestScore) {
+            bestScore = score;
+            best = row;
+        }
+    }
+
+    return bestScore >= 0.4 ? best : null;
+};
 
 const needsPartyLogoWhiteBg = (party) => {
     const normalized = normalizeKey(party);
@@ -327,6 +477,19 @@ const CANDIDATE_MEDIA_BY_ID = {
 
 const currentCandidateData = computed(() => {
     return candidatosData.find((item) => item.id === currentCandidateId.value) ?? null;
+});
+
+const currentDenunciasPartido = computed(() => {
+    const party = currentCandidateData.value?.party;
+    if (!party) return null;
+    return findDenunciasByParty(party);
+});
+
+const currentInvestigacionesCandidato = computed(() => {
+    const candidato = currentCandidateData.value?.candidate;
+    const partido = currentCandidateData.value?.party;
+    if (!candidato) return 0;
+    return findInvestigacionesByCandidate({ partido, candidato });
 });
 
 const hasSelectedCandidate = computed(() => Boolean(currentCandidateData.value));
@@ -774,7 +937,7 @@ const onPlanAmbitoFocusOut = (event) => {
                                         :alt="option.party" loading="lazy" />
                                     <span v-else class="logo-picker-fallback" aria-hidden="true">{{
                                         option.party?.slice(0, 2)?.toUpperCase() ?? ''
-                                    }}</span>
+                                        }}</span>
                                 </button>
                             </div>
                         </div>
@@ -962,31 +1125,24 @@ const onPlanAmbitoFocusOut = (event) => {
                         </div>
                     </div>
                 </div>
-                <!--
-                Denuncias (temporalmente oculto)
                 <div v-if="hasSelectedCandidate" class="descripcion-denuncias">
                     <div class="denuncia-line">
                         <h4 class="denuncia-label">Partido:</h4>
                         <h4 class="denuncia-value">{{ currentCandidateData?.party ?? '' }}</h4>
                     </div>
+                    <!-- <div class="denuncia-line">
+                        <h4 class="denuncia-label">Investigaciones candidato:</h4>
+                        <h4 class="denuncia-value">{{ currentInvestigacionesCandidato }}</h4>
+                    </div> -->
                     <div class="denuncia-line">
-                        <h4 class="denuncia-label">Denuncias candidato:</h4>
-                        <h4 class="denuncia-value">0</h4>
+                        <h4 class="denuncia-label">Condenas miembros partido:</h4>
+                        <h4 class="denuncia-value">{{ currentDenunciasPartido?.condenados ?? 0 }}</h4>
                     </div>
                     <div class="denuncia-line">
-                        <h4 class="denuncia-label">Sentencias candidato:</h4>
-                        <h4 class="denuncia-value">0</h4>
-                    </div>
-                    <div class="denuncia-line">
-                        <h4 class="denuncia-label">Denuncias miembros:</h4>
-                        <h4 class="denuncia-value">14</h4>
-                    </div>
-                    <div class="denuncia-line">
-                        <h4 class="denuncia-label">Sentencias miembros:</h4>
-                        <h4 class="denuncia-value">50</h4>
+                        <h4 class="denuncia-label">Sentencias miembros partido:</h4>
+                        <h4 class="denuncia-value">{{ currentDenunciasPartido?.sentenciados ?? 0 }}</h4>
                     </div>
                 </div>
-                -->
             </div>
 
         </div>

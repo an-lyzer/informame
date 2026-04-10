@@ -3580,7 +3580,7 @@
 
   {
     "id": "marisol-perez-tello",
-    "candidate": "María Soledad Pérez Tello de Rodríguez",
+    "candidate": "Marisol Perez Tello",
     "party": "Primero La Gente",
     "propuestas": {
       "simple": {
@@ -4322,6 +4322,139 @@
         "cargo": "CONGRESISTA DE LA REPÚBLICA (Elegido)",
         "partido": "ALIANZA PARA EL PROGRESO",
         "region": "LIMA"
+      }
+    ]
+  }
+
+  ,
+
+ 
+  {
+    "id": "partido-morado",
+    "candidate": "Mesias Antonio Guevara Amasifuen",
+    "party": "Partido Morado",
+    "propuestas": {
+      "simple": {
+        "seguridad": [
+          "Profesionalización meritocrática de la Policía",
+          "Sistema integrado de inteligencia contra el crimen",
+          "Reforma del sistema judicial para sanciones efectivas"
+        ],
+        "educacion": [
+          "Educación pública digital e innovadora",
+          "Revalorización y carrera meritocrática docente",
+          "Acceso equitativo a educación superior"
+        ],
+        "salud": [
+          "Sistema de salud universal integrado",
+          "Fortalecimiento de atención primaria",
+          "Digitalización de servicios de salud"
+        ],
+        "mineria": [
+          "Minería sostenible con transparencia fiscal",
+          "Formalización de la pequeña minería",
+          "Supervisión ambiental con tecnología"
+        ],
+        "economia": [
+          "Crecimiento económico basado en innovación",
+          "Formalización laboral progresiva",
+          "Apoyo a emprendimientos tecnológicos"
+        ],
+        "institucional": [
+          "Reforma política con transparencia total",
+          "Gobierno digital y datos abiertos",
+          "Fortalecimiento de organismos autónomos"
+        ],
+        "territorial_ambiental": [
+          "Descentralización con gestión eficiente",
+          "Planificación territorial sostenible",
+          "Acción climática y energías limpias"
+        ],
+        "social": [
+          "Reducción de desigualdad con enfoque social",
+          "Protección de poblaciones vulnerables",
+          "Igualdad de oportunidades reales"
+        ]
+      },
+      "detallado": {
+        "seguridad": [
+          "Profesionalización meritocrática de la Policía: Propone reformar la Policía Nacional mediante sistemas de ascenso por mérito, mejor capacitación y evaluación constante del desempeño para mejorar su eficacia.",
+          "Sistema integrado de inteligencia contra el crimen: Plantea la creación de un sistema articulado entre distintas entidades para anticipar, prevenir y combatir organizaciones criminales.",
+          "Reforma del sistema judicial para sanciones efectivas: Busca garantizar procesos judiciales rápidos y sanciones firmes para reducir la impunidad en delitos."
+        ],
+        "educacion": [
+          "Educación pública digital e innovadora: Promueve el uso de tecnología en el sistema educativo para mejorar el aprendizaje y reducir brechas digitales.",
+          "Revalorización y carrera meritocrática docente: Impulsa mejores condiciones laborales, evaluaciones y desarrollo profesional continuo para los docentes.",
+          "Acceso equitativo a educación superior: Busca ampliar oportunidades de acceso a universidades e institutos, especialmente en regiones."
+        ],
+        "salud": [
+          "Sistema de salud universal integrado: Propone unificar los sistemas de salud existentes para brindar cobertura universal y eficiente.",
+          "Fortalecimiento de atención primaria: Prioriza centros de salud de primer nivel para prevenir enfermedades y descongestionar hospitales.",
+          "Digitalización de servicios de salud: Implementa historias clínicas electrónicas y telemedicina para mejorar el acceso y calidad del servicio."
+        ],
+        "mineria": [
+          "Minería sostenible con transparencia fiscal: Promueve una minería responsable que garantice ingresos claros para el Estado y respeto ambiental.",
+          "Formalización de la pequeña minería: Busca integrar a los mineros informales al sistema formal mediante incentivos y regulación progresiva.",
+          "Supervisión ambiental con tecnología: Propone el uso de monitoreo digital para controlar impactos ambientales en tiempo real."
+        ],
+        "economia": [
+          "Crecimiento económico basado en innovación: Impulsa el desarrollo económico a través de tecnología, ciencia y digitalización.",
+          "Formalización laboral progresiva: Establece incentivos para reducir la informalidad sin afectar la generación de empleo.",
+          "Apoyo a emprendimientos tecnológicos: Fomenta startups y ecosistemas de innovación como motor económico."
+        ],
+        "institucional": [
+          "Reforma política con transparencia total: Propone eliminar privilegios políticos y asegurar financiamiento transparente en partidos.",
+          "Gobierno digital y datos abiertos: Implementa plataformas digitales para mejorar servicios públicos y acceso a información.",
+          "Fortalecimiento de organismos autónomos: Garantiza independencia de instituciones clave como justicia y control."
+        ],
+        "territorial_ambiental": [
+          "Descentralización con gestión eficiente: Busca transferir competencias a regiones con mecanismos de control y eficiencia.",
+          "Planificación territorial sostenible: Ordena el uso del territorio considerando crecimiento urbano y protección ambiental.",
+          "Acción climática y energías limpias: Promueve políticas para reducir emisiones y fomentar energías renovables."
+        ],
+        "social": [
+          "Reducción de desigualdad con enfoque social: Aplica políticas públicas para cerrar brechas económicas y sociales.",
+          "Protección de poblaciones vulnerables: Prioriza programas sociales dirigidos a grupos en situación de riesgo.",
+          "Igualdad de oportunidades reales: Busca garantizar acceso justo a educación, salud y empleo para todos."
+        ]
+      }
+    },
+    "trayectoria": [
+      {
+        "eleccion": "ELECCIONES REGIONALES 2018 2DA VUELTA",
+        "cargo": "GOBERNADOR REGIONAL (Elegido)",
+        "partido": "ACCION POPULAR",
+        "region": "CAJAMARCA"
+      },
+      {
+        "eleccion": "ELECCIONES REGIONALES Y MUNICIPALES 2018",
+        "cargo": "GOBERNADOR REGIONAL (No elegido)",
+        "partido": "ACCION POPULAR",
+        "region": "CAJAMARCA"
+      },
+      {
+        "eleccion": "ELECCIONES GENERALES 2011",
+        "cargo": "CONGRESISTA (Elegido)",
+        "partido": "PERÚ POSIBLE",
+        "region": "CAJAMARCA"
+      },
+      {
+        "eleccion": "ELECCIONES REGIONALES Y MUNICIPALES 2010",
+        "cargo": "PRESIDENTE REGIONAL (No elegido)",
+        "partido": "ACCION POPULAR",
+        "region": "CAJAMARCA"
+      },
+      {
+        "eleccion": "ELECCIONES REGIONALES Y MUNICIPALES 2006",
+        "cargo": "PRESIDENTE REGIONAL (No elegido)",
+        "partido": "ACCION POPULAR",
+        "region": "CAJAMARCA"
+      },
+      {
+        "eleccion": "ELECCIONES GENERALES 2006",
+        "cargo": "REPRESENTANTE ANTE EL PARLAMENTO ANDINO (No elegido)",
+        "partido": "FRENTE DE CENTRO",
+        "region": "NACION"
       }
     ]
   }

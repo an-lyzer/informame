@@ -155,6 +155,15 @@ const findCandidateIdByLogo = (logo) => {
     const logoKey = normalizeKey(logoText);
     if (!logoKey) return null;
 
+    // Overrides para logos que deben llevar a un registro específico
+    // (evita que el match por includes elija otro candidato del mismo partido).
+    if (logoKey.includes('partido morado') || logoKey === 'morado') {
+        return 'partido-morado';
+    }
+    if (logoKey.includes('primero la gente')) {
+        return 'primero-la-gente';
+    }
+
     const logoTokens = new Set(normalizeTokens(keyTokens(logoText)));
     const logoCompact = logoKey.replace(/\s+/g, '');
 
@@ -290,27 +299,33 @@ onBeforeUnmount(() => {
         </div>
 
         <div class="noticias-columnas">
-            <div class="noticia1">
+            <a class="noticia1 noticia-link-card"
+                href="https://elcomercio.pe/politica/elecciones/elecciones-2026-candidatos-a-la-presidencia-despliegan-giras-intensivas-en-regiones-donde-estuvieron-y-hacia-donde-se-dirigen-noticia/"
+                target="_blank" rel="noopener noreferrer" aria-label="Abrir noticia 1">
                 <img class="noticia-imagen" :src="noticia1Img"
                     alt="Candidatos a la presidencia despliegan giras intensivas en regiones" />
                 <h4 class="noticia-titulo">Candidatos a la presidencia despliegan giras intensivas en regiones: ¿Dónde
                     estuvieron y hacia dónde se dirigen?</h4>
                 <h5 class="noticia-meta">Abril 7 - 5 min leer</h5>
-            </div>
+            </a>
 
-            <div class="noticia2">
+            <a class="noticia2 noticia-link-card"
+                href="https://larepublica.pe/politica/2026/04/03/encuesta-presidencial-iep-keiko-fujimori-esta-estancada-mientras-que-rafael-lopez-aliaga-carlos-alvarez-y-roberto-sanchez-empatados-hnews-140412"
+                target="_blank" rel="noopener noreferrer" aria-label="Abrir noticia 2">
                 <img class="noticia-imagen" :src="noticia2Img" alt="Keiko se estanca en encuesta IEP" />
                 <h4 class="noticia-titulo">Keiko se estanca, mientras que López Aliaga, Carlos Álvarez y Roberto Sánchez
                     empatan en encuesta IEP</h4>
                 <h5 class="noticia-meta">Abril 5 - 4 min leer</h5>
-            </div>
+            </a>
 
-            <div class="noticia3">
+            <a class="noticia3 noticia-link-card"
+                href="https://www.bloomberglinea.com/latinoamerica/peru/este-es-el-valor-de-la-multa-por-no-votar-en-las-elecciones-de-peru-en-2026/"
+                target="_blank" rel="noopener noreferrer" aria-label="Abrir noticia 3">
                 <img class="noticia-imagen" :src="noticia3Img" alt="Multa por no votar en Perú 2026" />
                 <h4 class="noticia-titulo">Este es el valor de la multa por no votar en las elecciones de Perú en 2026
                 </h4>
                 <h5 class="noticia-meta">Abril 7 - 4 min leer</h5>
-            </div>
+            </a>
         </div>
 
     </div>
@@ -356,7 +371,8 @@ onBeforeUnmount(() => {
                     Revisa las estadísticas más recientes e infórmate qué está pasando realmente de forma gráfica.
                 </h2>
 
-                <button type="button" class="estadisticas-cta" aria-label="Ver más estadísticas">
+                <a class="estadisticas-cta" href="https://www.ipsos.com/es-pe" target="_blank" rel="noopener noreferrer"
+                    aria-label="Abrir Ipsos">
                     <svg width="204" height="62" viewBox="0 0 204 62" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <g filter="url(#filter0_d_74_163)">
                             <rect width="196" height="54" rx="21" fill="var(--primary-yellow)" />
@@ -380,7 +396,7 @@ onBeforeUnmount(() => {
                             </filter>
                         </defs>
                     </svg>
-                </button>
+                </a>
             </div>
         </div>
     </div>
@@ -733,6 +749,8 @@ onBeforeUnmount(() => {
     cursor: pointer;
     line-height: 0;
     align-self: center;
+    display: inline-block;
+    text-decoration: none;
 }
 
 .estadisticas-cta svg {
@@ -812,7 +830,19 @@ onBeforeUnmount(() => {
     }
 }
 
-.noticias-columnas>div {
+.noticia-link-card {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+.noticia-link-card:focus-visible {
+    outline: 2px solid var(--primary-yellow);
+    outline-offset: 6px;
+    border-radius: 12px;
+}
+
+.noticias-columnas>* {
     flex: 1;
     min-width: 0;
 }

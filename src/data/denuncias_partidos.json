@@ -1,0 +1,48 @@
+{
+  "partidos": [
+    { "partido": "Podemos Perú", "sentenciados": 19, "condenados": 12 },
+    { "partido": "Fuerza Popular", "sentenciados": 15, "condenados": 11 },
+    { "partido": "Alianza para el Progreso", "sentenciados": 14, "condenados": 9 },
+    { "partido": "Partido Cívico Obras", "sentenciados": 12, "condenados": 7 },
+    { "partido": "Perú Libre", "sentenciados": 12, "condenados": 10 },
+    { "partido": "Perú Primero", "sentenciados": 12, "condenados": 8 },
+    { "partido": "APRA", "sentenciados": 11, "condenados": 8 },
+    { "partido": "Frente de la Esperanza 2021", "sentenciados": 11, "condenados": 8 },
+    { "partido": "Partido Democrático Federal", "sentenciados": 11, "condenados": 8 },
+    { "partido": "Perú Moderno", "sentenciados": 10, "condenados": 5 },
+    { "partido": "Progresemos", "sentenciados": 10, "condenados": 8 },
+    { "partido": "Somos Perú", "sentenciados": 10, "condenados": 5 },
+    { "partido": "Cooperación Popular", "sentenciados": 9, "condenados": 5 },
+    { "partido": "Juntos por el Perú", "sentenciados": 9, "condenados": 6 },
+    { "partido": "Avanza País", "sentenciados": 8, "condenados": 5 },
+    { "partido": "Renovación Popular", "sentenciados": 8, "condenados": 4 },
+    { "partido": "Unidad Nacional", "sentenciados": 8, "condenados": 5 },
+    { "partido": "Ahora Nación", "sentenciados": 7, "condenados": 4 },
+    { "partido": "Partido del Buen Gobierno", "sentenciados": 6, "condenados": 4 },
+    { "partido": "Partido País para Todos", "sentenciados": 6, "condenados": 1 },
+    { "partido": "Alianza Venceremos", "sentenciados": 5, "condenados": 2 },
+    { "partido": "Libertad Popular", "sentenciados": 5, "condenados": 3 },
+    { "partido": "Partido Demócrata Unido Perú", "sentenciados": 5, "condenados": 3 },
+    { "partido": "Partido Demócrata Verde", "sentenciados": 5, "condenados": 4 },
+    { "partido": "Partido de los Trabajadores y Emprendedores", "sentenciados": 4, "condenados": 1 },
+    { "partido": "Fe en el Perú", "sentenciados": 3, "condenados": 2 },
+    { "partido": "Frente Popular Agrícola del Perú", "sentenciados": 3, "condenados": 0 },
+    { "partido": "Integridad Democrática", "sentenciados": 3, "condenados": 1 },
+    { "partido": "PRIN", "sentenciados": 3, "condenados": 2 },
+    { "partido": "Partido Morado", "sentenciados": 2, "condenados": 2 },
+    { "partido": "Salvemos al Perú", "sentenciados": 2, "condenados": 0 },
+    { "partido": "Ciudadanos por el Perú", "sentenciados": 1, "condenados": 0 },
+    { "partido": "Partido Patriótico del Perú", "sentenciados": 1, "condenados": 0 },
+    { "partido": "Partido SíCreo", "sentenciados": 1, "condenados": 1 },
+    { "partido": "Partido Perú Acción", "sentenciados": 1, "condenados": 1 },
+
+    { "partido": "Acción Popular", "sentenciados": 0, "condenados": 0 },
+    {
+      "partido": "Primero La Gente - Comunidad, Ecología, Libertad y Progreso",
+      "sentenciados": 0,
+      "condenados": 0
+    },
+    { "partido": "Partido Político Un Camino Diferente", "sentenciados": 0, "condenados": 0 },
+    { "partido": "Fuerza y Libertad", "sentenciados": 0, "condenados": 0 }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "investigaciones": [
+    {
+      "partido": "Renovación Popular",
+      "candidato": "Rafael Lopez Aliaga",
+      "investigaciones": 3
+    },
+    {
+      "partido": "Fuerza Popular",
+      "candidato": "Keiko Fujimori",
+      "investigaciones": 2
+    },
+    {
+      "partido": "País Para Todos",
+      "candidato": "Carlos Alvarez",
+      "investigaciones": 0
+    },
+    {
+      "partido": "Partido Buen Gobierno",
+      "candidato": "Jorge Nieto",
+      "investigaciones": 1
+    },
+    {
+      "partido": "Ahora Nación",
+      "candidato": "Alfonso Lopez Chao",
+      "investigaciones": 1
+    },
+    {
+      "partido": "Obras",
+      "candidato": "Ricardo Belmond",
+      "investigaciones": 1
+    },
+    {
+      "partido": "Partido Morado",
+      "candidato": "Mesias Guevara",
+      "investigaciones": 0
+    },
+    {
+      "partido": "Partido Perú Primero",
+      "candidato": "Marisol Perez Tello",
+      "investigaciones": 0
+    }
+  ]
+}
