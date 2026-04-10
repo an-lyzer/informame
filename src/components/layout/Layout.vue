@@ -16,7 +16,8 @@ const menuOpen = ref(false);
             <nav class="paginas">
                 <a href="#/candidatos">Candidatos/Partidos</a>
                 <a href="#/noticias">Noticias</a>
-                <a href="#/estadisticas">Estadísticas</a>
+                <a href="https://elcomercio.pe/politica/elecciones-peru-2026-simulador-voto-como-cedula-evitar-errores-practicar-presidente-senado-diputados-parlamento-andino-especdis-noticia/"
+                    target="_blank" rel="noopener noreferrer">¿Como votar?</a>
             </nav>
             <div class="menu-hamburguesa" @click="menuOpen = !menuOpen">
                 <span></span>
@@ -27,7 +28,8 @@ const menuOpen = ref(false);
             <nav v-if="menuOpen" class="menu-movil" @click.stop>
                 <a href="#/candidatos" @click="menuOpen = false">Candidatos/Partidos</a>
                 <a href="#/noticias" @click="menuOpen = false">Noticias</a>
-                <a href="#/estadisticas" @click="menuOpen = false">Estadísticas</a>
+                <a href="https://elcomercio.pe/politica/elecciones-peru-2026-simulador-voto-como-cedula-evitar-errores-practicar-presidente-senado-diputados-parlamento-andino-especdis-noticia/"
+                    target="_blank" rel="noopener noreferrer" @click="menuOpen = false">¿Como votar?</a>
             </nav>
         </header>
 

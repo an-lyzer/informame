@@ -9,7 +9,9 @@ import { Icon } from '@iconify/vue';
                 <h3 class="footer-title">Servicios</h3>
                 <a class="footer-link" href="#/candidatos">Candidato/Partido</a>
                 <a class="footer-link" href="#/noticias">Noticias</a>
-                <a class="footer-link" href="#/estadisticas">Estadísticas</a>
+                <a class="footer-link"
+                    href="https://elcomercio.pe/politica/elecciones-peru-2026-simulador-voto-como-cedula-evitar-errores-practicar-presidente-senado-diputados-parlamento-andino-especdis-noticia/"
+                    target="_blank" rel="noopener noreferrer">¿Como votar?</a>
             </div>
 
             <div class="footer-col">

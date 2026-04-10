@@ -1,7 +1,7 @@
 <script setup>
 import { computed, onBeforeUnmount, onMounted, nextTick, ref } from 'vue';
-import intencionVotoBarrasImg from '../../assets/intencion_voto_barras.png';
-import intencionVotoPresidenteImg from '../../assets/intencion_voto_presidente.png';
+import actualizacion1Img from '../../assets/actualizacion1.png';
+import actualizacion2Img from '../../assets/actualizacion2.png';
 import intencionSenadoFebImg from '../../assets/intencion_senado_feb.png';
 import noticia1Img from '../../assets/noticias/noticia1.png';
 import noticia2Img from '../../assets/noticias/noticia2.png';
@@ -43,12 +43,12 @@ const estadisticasTitleWidth = ref(0);
 const activeStatIndex = ref(0);
 const stats = [
     {
-        title: 'Intención de Voto Presidencial Ene-Feb | Ipsos',
-        imageSrc: intencionVotoBarrasImg,
+        title: 'INTENCIÓN DE VOTO Presidentes | Abril Ipsos',
+        imageSrc: actualizacion1Img,
     },
     {
-        title: 'Intención de Voto Presidencial Último Año | Ipsos',
-        imageSrc: intencionVotoPresidenteImg,
+        title: 'POTENCIAL DE VOTO Senado | Abril Ipsos',
+        imageSrc: actualizacion2Img,
     },
     {
         title: 'Intención de Voto Partido/Senado Feb | Ipsos',
@@ -371,8 +371,9 @@ onBeforeUnmount(() => {
                     Revisa las estadísticas más recientes e infórmate qué está pasando realmente de forma gráfica.
                 </h2>
 
-                <a class="estadisticas-cta" href="https://www.ipsos.com/es-pe" target="_blank" rel="noopener noreferrer"
-                    aria-label="Abrir Ipsos">
+                <a class="estadisticas-cta"
+                    href="https://elcomercio.pe/politica/elecciones-peru-2026-simulador-voto-como-cedula-evitar-errores-practicar-presidente-senado-diputados-parlamento-andino-especdis-noticia/"
+                    target="_blank" rel="noopener noreferrer" aria-label="Abrir simulador de voto">
                     <svg width="204" height="62" viewBox="0 0 204 62" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <g filter="url(#filter0_d_74_163)">
                             <rect width="196" height="54" rx="21" fill="var(--primary-yellow)" />
