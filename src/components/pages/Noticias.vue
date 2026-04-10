@@ -137,7 +137,8 @@ const noticiasSecundarias = computed(() => [
                 </div>
 
                 <div class="noticia-principal">
-                    <a class="noticia-principal-link" :href="noticiaPrincipal.url" aria-label="Abrir noticia principal">
+                    <a class="noticia-principal-link" :href="noticiaPrincipal.url" target="_blank"
+                        rel="noopener noreferrer" aria-label="Abrir noticia principal">
                         <img class="noticia-principal-img" :src="noticiaPrincipal.imgSrc"
                             :alt="noticiaPrincipal.imgAlt" />
                     </a>
@@ -151,7 +152,8 @@ const noticiasSecundarias = computed(() => [
 
                 <div class="noticias-secundarias">
                     <component :is="item.url ? 'a' : 'div'" v-for="item in noticiasSecundarias" :key="item.id"
-                        class="noticia-card" :class="{ 'is-link': Boolean(item.url) }" :href="item.url || undefined">
+                        class="noticia-card" :class="{ 'is-link': Boolean(item.url) }" :href="item.url || undefined"
+                        :target="item.url ? '_blank' : undefined" :rel="item.url ? 'noopener noreferrer' : undefined">
                         <img class="noticia-card-img" :src="item.imgSrc" :alt="item.imgAlt" />
                         <h4 class="noticia-card-title">{{ item.title }}</h4>
                     </component>
@@ -164,7 +166,7 @@ const noticiasSecundarias = computed(() => [
 
                     <div class="otras-noticias-item">
                         <h5 class="otras-noticias-time">14:00</h5>
-                        <a class="otras-noticias-headline otras-noticias-link"
+                        <a class="otras-noticias-headline otras-noticias-link" target="_blank" rel="noopener noreferrer"
                             href="https://elcomercio.pe/politica/elecciones/elecciones-2026-candidatos-a-la-presidencia-despliegan-giras-intensivas-en-regiones-donde-estuvieron-y-hacia-donde-se-dirigen-noticia/">
                             Candidatos a la presidencia despliegan giras intensivas en regiones: ¿Dónde estuvieron y
                             hacia dónde se dirigen?
@@ -175,7 +177,7 @@ const noticiasSecundarias = computed(() => [
 
                     <div class="otras-noticias-item">
                         <h5 class="otras-noticias-time">15:00</h5>
-                        <a class="otras-noticias-headline otras-noticias-link"
+                        <a class="otras-noticias-headline otras-noticias-link" target="_blank" rel="noopener noreferrer"
                             href="https://www.bloomberglinea.com/latinoamerica/peru/este-es-el-valor-de-la-multa-por-no-votar-en-las-elecciones-de-peru-en-2026/">
                             Este es el valor de la multa por no votar en las elecciones de Perú en 2026
                         </a>
