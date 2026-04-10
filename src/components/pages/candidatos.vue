@@ -2001,32 +2001,47 @@ const onPlanAmbitoFocusOut = (event) => {
         width: 100%;
     }
 
-    /* En responsive: mostrar primero título + imagen del candidato */
-    .candidatos-col--title {
-        order: -1;
+    /* En responsive: orden -> buscador, luego título+imagen, luego el resto */
+    .candidatos-col--search {
+        display: contents;
     }
 
-    .candidatos-col--search {
+    .search-row {
         order: 0;
     }
 
-    /* Dentro del bloque de título: imagen primero, luego el nombre */
+    .candidatos-col--title {
+        order: 1;
+    }
+
+    .bar-opciones {
+        order: 2;
+        width: 100%;
+    }
+
+    .opcion-seccion {
+        order: 3;
+        width: 100%;
+    }
+
+    /* Dentro del bloque de título (responsive): nombre arriba, imagen abajo */
     .candidatos-col--title {
         display: flex;
         flex-direction: column;
         align-items: center;
     }
 
-    .candidato-perfil {
-        order: 0;
+    /* Forzar el orden para que el nombre SIEMPRE quede arriba */
+    .candidatos-title-row {
+        order: -1 !important;
+        min-height: 0;
         margin-top: 0;
+        width: 100%;
     }
 
-    .candidatos-title-row {
-        order: 1;
-        min-height: 0;
+    .candidato-perfil {
+        order: 0 !important;
         margin-top: 14px;
-        width: 100%;
     }
 
     .search-row {
@@ -2115,13 +2130,27 @@ const onPlanAmbitoFocusOut = (event) => {
         gap: 18px;
     }
 
-    /* Asegurar orden correcto también en móvil */
-    .candidatos-col--title {
-        order: -1;
+    /* En móvil: mantener el mismo orden (buscador -> título+imagen -> resto) */
+    .candidatos-col--search {
+        display: contents;
     }
 
-    .candidatos-col--search {
+    .search-row {
         order: 0;
+    }
+
+    .candidatos-col--title {
+        order: 1;
+    }
+
+    .bar-opciones {
+        order: 2;
+        width: 100%;
+    }
+
+    .opcion-seccion {
+        order: 3;
+        width: 100%;
     }
 
     /* Achicar imagen para que el nombre quede visible sin ocupar toda la pantalla */
@@ -2138,6 +2167,14 @@ const onPlanAmbitoFocusOut = (event) => {
         width: 100%;
         margin-left: 0;
         margin-right: 0;
+    }
+
+    .candidatos-title-row {
+        order: -1 !important;
+    }
+
+    .candidato-perfil {
+        order: 0 !important;
     }
 
     .candidato-perfil-logo-wrap {
