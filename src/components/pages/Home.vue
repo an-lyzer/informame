@@ -268,7 +268,8 @@ onBeforeUnmount(() => {
             <div v-for="logo in logos" :key="logo.name" class="opcion-cuadro" @click="selectByLogo(logo)" role="button"
                 tabindex="0" @keydown.enter.prevent="selectByLogo(logo)" @keydown.space.prevent="selectByLogo(logo)"
                 aria-label="Seleccionar partido">
-                <img :src="logo.src" :alt="logo.alt" loading="lazy" :class="{ 'logo-white-badge': needsLogoContrast(logo) }" />
+                <img :src="logo.src" :alt="logo.alt" loading="lazy"
+                    :class="{ 'logo-white-badge': needsLogoContrast(logo) }" />
             </div>
         </div>
         <div class="home-icon" @click="scrollToNoticiasSemana" aria-label="Ir a noticias de la semana">
@@ -542,6 +543,49 @@ onBeforeUnmount(() => {
     box-sizing: border-box;
 }
 
+@media (max-width: 1024px) {
+    .seccion-noticias {
+        height: auto;
+    }
+
+    .noticias-header {
+        padding-left: 32px;
+        padding-right: 32px;
+    }
+
+    .noticias-header h2 {
+        padding-top: 56px;
+    }
+
+    .noticias-columnas {
+        flex-direction: column;
+        gap: 28px;
+        padding-left: 32px;
+        padding-right: 32px;
+        padding-top: 32px;
+        padding-bottom: 40px;
+    }
+}
+
+@media (max-width: 600px) {
+    .noticias-header {
+        padding-left: 12px;
+        padding-right: 12px;
+    }
+
+    .noticias-header h2 {
+        padding-top: 40px;
+    }
+
+    .noticias-columnas {
+        gap: 20px;
+        padding-left: 12px;
+        padding-right: 12px;
+        padding-top: 24px;
+        padding-bottom: 48px;
+    }
+}
+
 .seccion-estadisticas {
     padding-bottom: 64px;
 }
@@ -696,6 +740,10 @@ onBeforeUnmount(() => {
 }
 
 @media (max-width: 1024px) {
+    .seccion-estadisticas {
+        padding-bottom: 40px;
+    }
+
     .estadisticas-columnas {
         flex-direction: column;
         gap: 22.4px;
@@ -711,9 +759,31 @@ onBeforeUnmount(() => {
     .estadistica1 {
         padding-left: 0;
     }
+
+    .estadistica-imagen {
+        width: 100%;
+    }
+
+    .col2 {
+        align-items: center;
+    }
+
+    .estadisticas-col2-titulo {
+        margin: 16px 0 0 0;
+        text-align: center;
+        font-size: clamp(22px, 4.6vw, 34px);
+    }
+
+    .estadisticas-cta {
+        margin-top: 28px;
+    }
 }
 
 @media (max-width: 600px) {
+    .seccion-estadisticas {
+        padding-bottom: 28px;
+    }
+
     .estadisticas-columnas {
         padding-left: 9.6px;
         padding-right: 9.6px;
@@ -725,11 +795,20 @@ onBeforeUnmount(() => {
     }
 
     .estadistica-tabs {
-        gap: 42px;
+        gap: 24px;
     }
 
     .estadistica-tab {
         padding: 9px 14px;
+    }
+
+    .estadisticas-col2-titulo {
+        font-size: clamp(18px, 6.2vw, 26px);
+        line-height: 1.2;
+    }
+
+    .estadistica-titulo {
+        margin: 0 0 10px 0;
     }
 }
 

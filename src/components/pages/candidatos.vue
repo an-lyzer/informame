@@ -649,7 +649,9 @@ const updateBarIndicator = async () => {
 
     const wrapRect = wrap.getBoundingClientRect();
     const btnRect = btn.getBoundingClientRect();
-    barIndicatorLeft.value = btnRect.left - wrapRect.left;
+    // Importante para responsive: si la barra es scrollable en X,
+    // necesitamos sumar scrollLeft para obtener coordenadas en el contenido.
+    barIndicatorLeft.value = btnRect.left - wrapRect.left + wrap.scrollLeft;
     barIndicatorWidth.value = btnRect.width;
 };
 
@@ -960,6 +962,8 @@ const onPlanAmbitoFocusOut = (event) => {
                         </div>
                     </div>
                 </div>
+                <!--
+                Denuncias (temporalmente oculto)
                 <div v-if="hasSelectedCandidate" class="descripcion-denuncias">
                     <div class="denuncia-line">
                         <h4 class="denuncia-label">Partido:</h4>
@@ -982,6 +986,7 @@ const onPlanAmbitoFocusOut = (event) => {
                         <h4 class="denuncia-value">50</h4>
                     </div>
                 </div>
+                -->
             </div>
 
         </div>
@@ -1579,7 +1584,7 @@ const onPlanAmbitoFocusOut = (event) => {
 
 .plan-controls {
     display: flex;
-    align-items: flex-end;
+    align-items: center;
     gap: 22px;
     flex-wrap: wrap;
 }
@@ -1589,6 +1594,7 @@ const onPlanAmbitoFocusOut = (event) => {
     display: flex;
     align-items: center;
     gap: 12px;
+    min-height: 42px;
 }
 
 .plan-dropdown {
@@ -1658,11 +1664,13 @@ const onPlanAmbitoFocusOut = (event) => {
 }
 
 .plan-btn--ambito {
-    height: auto;
+    height: 42px;
     padding: 0;
     border: 0;
     border-radius: 0;
     background: transparent;
+    display: inline-flex;
+    align-items: center;
 }
 
 .plan-btn--ambito .plan-btn-text {
@@ -1826,7 +1834,83 @@ const onPlanAmbitoFocusOut = (event) => {
         padding-right: 40px;
     }
 
+    .candidatos-columns {
+        flex-direction: column;
+        gap: 26px;
+    }
 
+    .candidatos-col--search,
+    .candidatos-col--title {
+        flex: 0 0 auto;
+        width: 100%;
+    }
+
+    /* En responsive: mostrar primero título + imagen del candidato */
+    .candidatos-col--title {
+        order: -1;
+    }
+
+    .candidatos-col--search {
+        order: 0;
+    }
+
+    /* Dentro del bloque de título: imagen primero, luego el nombre */
+    .candidatos-col--title {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .candidato-perfil {
+        order: 0;
+        margin-top: 0;
+    }
+
+    .candidatos-title-row {
+        order: 1;
+        min-height: 0;
+        margin-top: 14px;
+        width: 100%;
+    }
+
+    .search-row {
+        gap: 18px;
+    }
+
+    .bar-opciones {
+        justify-content: center;
+        gap: 18px;
+        overflow-x: auto;
+        overflow-y: hidden;
+        scrollbar-width: none;
+    }
+
+    .bar-opciones::-webkit-scrollbar {
+        display: none;
+    }
+
+    .bar-opcion {
+        flex: 0 0 auto;
+        font-size: 20px;
+        white-space: nowrap;
+    }
+
+    .candidato-perfil-img-wrap {
+        width: min(320px, 62vw);
+    }
+
+    .descripcion-denuncias {
+        width: 100%;
+    }
+
+    .miembro-card {
+        gap: 22px;
+    }
+
+    .trayectoria-eleccion,
+    .trayectoria-detalle {
+        font-size: 18px;
+    }
 
     .candidatos-title {
         font-size: 40px;
@@ -1839,9 +1923,25 @@ const onPlanAmbitoFocusOut = (event) => {
 
 @media (max-width: 600px) {
     .search-row {
-        flex-direction: column;
-        align-items: flex-end;
-        gap: 12px;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: nowrap;
+        gap: 10px;
+    }
+
+    .search-autocomplete {
+        flex: 1 1 auto;
+        min-width: 0;
+    }
+
+    .logo-picker {
+        flex: 0 0 auto;
+    }
+
+    .logo-picker-btn svg {
+        width: clamp(90px, 26vw, 120px);
+        height: auto;
     }
 
     .search-side-svg {
@@ -1857,6 +1957,137 @@ const onPlanAmbitoFocusOut = (event) => {
     .candidatos-columns {
         flex-direction: column;
         gap: 18px;
+    }
+
+    /* Asegurar orden correcto también en móvil */
+    .candidatos-col--title {
+        order: -1;
+    }
+
+    .candidatos-col--search {
+        order: 0;
+    }
+
+    /* Achicar imagen para que el nombre quede visible sin ocupar toda la pantalla */
+    .candidato-perfil-img-wrap {
+        width: min(200px, 56vw);
+    }
+
+    .candidatos-title {
+        font-size: clamp(22px, 6.2vw, 30px);
+        line-height: 1.1;
+    }
+
+    .candidatos-title-row {
+        width: 100%;
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    .candidato-perfil-logo-wrap {
+        width: 48px;
+        height: 48px;
+        right: 6px;
+        bottom: 6px;
+    }
+
+    .bar-opciones {
+        justify-content: flex-start;
+        gap: 14px;
+        margin-top: 22px;
+        padding-bottom: 12px;
+    }
+
+    .bar-opcion {
+        font-size: 17px;
+    }
+
+    .plan-controls {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 14px;
+    }
+
+    .plan-control {
+        width: 100%;
+        justify-content: space-between;
+        gap: 10px;
+    }
+
+    /* En responsive: pegar "Seguridad" al texto "Ámbito:" */
+    .plan-controls .plan-control:first-child {
+        justify-content: flex-start;
+        gap: 6px;
+        flex-wrap: nowrap;
+        min-height: 42px;
+        position: relative;
+    }
+
+    /* En móvil, centrar el menú respecto al ancho de la pantalla (control full-width) */
+    .plan-controls .plan-control:first-child .plan-dropdown {
+        position: static;
+    }
+
+    .plan-controls .plan-control:first-child .plan-btn--ambito {
+        display: inline-flex;
+        align-items: center;
+        min-height: 42px;
+    }
+
+    .plan-resumen-toggle {
+        width: 100%;
+    }
+
+    .plan-resumen-option {
+        padding: 0 12px;
+        font-size: 16px;
+    }
+
+    .plan-btn--ambito .plan-btn-text {
+        font-size: 20px;
+    }
+
+    .plan-menu {
+        min-width: 0;
+        left: 50%;
+        right: auto;
+        transform: translateX(-50%);
+        width: min(80vw, 300px);
+        max-width: calc(100vw - 24px);
+        padding: 8px;
+        box-sizing: border-box;
+    }
+
+    .plan-menu-item {
+        font-size: 16px;
+        padding: 8px 10px;
+        white-space: normal;
+        word-break: break-word;
+    }
+
+    .propuestas {
+        padding-top: 26px;
+    }
+
+    .miembro-card {
+        flex-direction: column;
+        align-items: center;
+        gap: 14px;
+        padding-bottom: 10px;
+        text-align: center;
+    }
+
+    .miembro-body {
+        text-align: center;
+    }
+
+    .trayectoria-eleccion {
+        font-size: 17px;
+    }
+
+    .trayectoria-detalle {
+        font-size: 16px;
+        margin-top: 8px;
     }
 
     .search-autocomplete {

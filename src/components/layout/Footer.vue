@@ -173,6 +173,18 @@ import { Icon } from '@iconify/vue';
 
     .footer-top {
         column-gap: 19.2px;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        row-gap: 2.2rem;
+        padding-top: 2.5rem;
+        padding-bottom: 1.6rem;
+    }
+
+    .footer-bottom {
+        flex-wrap: wrap;
+        row-gap: 0.8rem;
+        padding-top: 1.2rem;
+        padding-bottom: 1.2rem;
+        align-items: flex-start;
     }
 }
 
@@ -191,6 +203,14 @@ import { Icon } from '@iconify/vue';
         align-items: flex-start;
         text-align: left;
         padding: 0;
+    }
+
+    .footer-col>.footer-title+* {
+        margin-top: 16px;
+    }
+
+    .footer-col> :not(.footer-title)+ :not(.footer-title) {
+        margin-top: 12px;
     }
 
     .footer-bottom {

@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from 'vue';
 import Footer from './Footer.vue';
+import appLogoSrc from '../../assets/informamelogo.png';
 const menuOpen = ref(false);
 </script>
 
@@ -9,9 +10,7 @@ const menuOpen = ref(false);
         <header class="header">
             <div class="logo">
                 <a href="#/" class="logo-link" @click="menuOpen = false">
-                    <h1>
-                        Informa.me <span class="check">✔</span>
-                    </h1>
+                    <img class="brand-logo" :src="appLogoSrc" alt="INFORMA.Me" />
                 </a>
             </div>
             <nav class="paginas">
@@ -76,22 +75,13 @@ const menuOpen = ref(false);
     cursor: pointer;
 }
 
-.logo h1 {
-    color: var(--primary-black);
-    margin: 0;
-    font-family: 'Times New Roman';
-    font-style: italic;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-.check {
-    font-size: 2.56rem;
-    color: var(--primary-black);
-    margin-top: 0.2rem;
-    display: inline-block;
-    vertical-align: middle;
+.brand-logo {
+    display: block;
+    height: 74px;
+    width: auto;
+    max-width: min(700px, 55vw);
+    object-fit: contain;
+    margin-top: 6px;
 }
 
 .paginas {
@@ -210,16 +200,21 @@ const menuOpen = ref(false);
         height: 1.125rem;
     }
 
-    .logo h1 {
-        font-size: 1.76rem;
+    .brand-logo {
+        height: 57px;
     }
 }
 
 @media (max-width: 43.75em) {
     .header {
         padding: 0.6rem 1rem;
-        height: 4rem;
-        min-height: 4rem;
+        height: 5.5rem;
+        min-height: 5.5rem;
+        justify-content: left;
+    }
+
+    .logo {
+        margin-top: 10px;
     }
 
     .paginas {
@@ -234,9 +229,9 @@ const menuOpen = ref(false);
         transform: translateY(-50%);
     }
 
-    .logo h1 {
-        font-size: 0.96rem;
-        padding-left: 1.1rem;
+    .brand-logo {
+        height: 57px;
+        margin-left: 0;
     }
 }
 
