@@ -19,6 +19,15 @@ const logoModules = import.meta.glob('../../assets/logos/*.{png,jpg,jpeg,svg,web
 const logos = Object.entries(logoModules)
     .map(([path, src]) => {
         const fileName = path.split('/').pop() ?? path;
+        // Hotfix: existe un asset llamado literalmente ".jpg" (sin nombre base)
+        // que corresponde a "Integridad Democrática".
+        if (fileName.toString().toLocaleLowerCase('es') === '.jpg') {
+            return {
+                name: 'Logo_de_Integridad_democratica.jpg',
+                src,
+                alt: 'Integridad Democrática',
+            };
+        }
         return {
             name: fileName,
             src,
@@ -150,6 +159,26 @@ const keyTokens = (value) =>
 
 const normalizeTokens = (tokens) => tokens.map((t) => TOKEN_ALIASES[t] ?? t);
 
+const findCandidateIdByParty = (partyName) => {
+    const partyKey = normalizeKey(partyName);
+    if (!partyKey) return null;
+
+    for (const item of SEARCH_SUGGESTIONS) {
+        const itemKey = normalizeKey(item.party);
+        if (!itemKey) continue;
+        if (itemKey === partyKey) return item.id;
+    }
+
+    // Fallback: inclusion por si el logo trae el nombre extendido.
+    for (const item of SEARCH_SUGGESTIONS) {
+        const itemKey = normalizeKey(item.party);
+        if (!itemKey) continue;
+        if (itemKey.includes(partyKey) || partyKey.includes(itemKey)) return item.id;
+    }
+
+    return null;
+};
+
 const findCandidateIdByLogo = (logo) => {
     const logoText = logo?.alt ?? logo?.name ?? '';
     const logoKey = normalizeKey(logoText);
@@ -158,10 +187,10 @@ const findCandidateIdByLogo = (logo) => {
     // Overrides para logos que deben llevar a un registro específico
     // (evita que el match por includes elija otro candidato del mismo partido).
     if (logoKey.includes('partido morado') || logoKey === 'morado') {
-        return 'partido-morado';
+        return findCandidateIdByParty('Partido Morado') ?? 'partido-morado';
     }
     if (logoKey.includes('primero la gente')) {
-        return 'primero-la-gente';
+        return findCandidateIdByParty('Primero La Gente');
     }
 
     const logoTokens = new Set(normalizeTokens(keyTokens(logoText)));

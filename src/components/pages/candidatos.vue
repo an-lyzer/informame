@@ -3,8 +3,10 @@ import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { Icon } from "@iconify/vue";
 import Logo_Cooperacion_Popular_Peru from '../../assets/logos/Logo_Cooperacion_Popular_Peru.png';
 import Logo_Fuerza_Popular from '../../assets/logos/Fuerza_popular.svg';
+import Logo_Unidad_Nacional_2025 from '../../assets/logos/Unidad_Nacional_2025.jpg';
 import lescanoImgSrc from '../../assets/imagenes candidato/Lescano/lescano.jpg';
 import keikoImgSrc from '../../assets/imagenes candidato/Keiko/keiko.jpeg';
+import chiabraImgSrc from '../../assets/imagenes candidato/chiabara/chiabara.jpg';
 import vice1ImgSrc from '../../assets/imagenes candidato/Lescano/1era_vice.jpg';
 import vice2ImgSrc from '../../assets/imagenes candidato/Lescano/2da_vice.jpg';
 import candidatosData from '../../data/candidatos.json';
@@ -23,7 +25,12 @@ const LOGO_MODULES = import.meta.glob('../../assets/logos/*.{png,jpg,jpeg,svg}',
 
 const AVAILABLE_LOGOS = Object.entries(LOGO_MODULES).map(([path, src]) => {
     const filename = path.split('/').pop() ?? '';
-    const base = filename.replace(/\.[^.]+$/, '');
+    let base = filename.replace(/\.[^.]+$/, '');
+    // Hotfix: existe un asset llamado literalmente ".jpg" (sin nombre base)
+    // que corresponde a "Integridad Democrática".
+    if (filename.toLocaleLowerCase('es') === '.jpg') {
+        base = 'Logo_de_Integridad_democratica';
+    }
     return { path, src, base };
 });
 
@@ -162,6 +169,14 @@ const findDenunciasByParty = (party) => {
     }
     if (direct) return direct;
 
+    // Preferir matches donde el registro de denuncias es una versión extendida del partido.
+    // Ej: "Primero La Gente" vs "Primero La Gente - Comunidad, Ecología, Libertad y Progreso".
+    for (const row of DENUNCIAS_PARTIDOS) {
+        const rowKey = normalizePartyForDenuncias(row?.partido);
+        if (!rowKey) continue;
+        if (rowKey.startsWith(partyKey)) return row;
+    }
+
     // Fallback por parecido (tokens + inclusion)
     const partyTokens = tokenize(party);
     if (!partyTokens.length) return null;
@@ -190,7 +205,10 @@ const findDenunciasByParty = (party) => {
 
         const rowJoined = rowTokens.join('');
         if (rowJoined && partyJoined) {
-            if (rowJoined.includes(partyJoined) || partyJoined.includes(rowJoined)) score += 0.35;
+            // Bonus más fuerte cuando el registro contiene al partido (nombre extendido).
+            if (rowJoined.includes(partyJoined)) score += 0.45;
+            // Bonus menor cuando el partido contiene al registro (registro muy corto, puede ser ambiguo).
+            else if (partyJoined.includes(rowJoined)) score += 0.10;
         }
 
         if (score > bestScore) {
@@ -473,6 +491,12 @@ const CANDIDATE_MEDIA_BY_ID = {
         logoCrop: true,
         hasMembers: false,
     },
+    'roberto-chiabra': {
+        photoSrc: chiabraImgSrc,
+        logoSrc: Logo_Unidad_Nacional_2025,
+        logoCrop: false,
+        hasMembers: false,
+    },
 };
 
 const currentCandidateData = computed(() => {
@@ -490,6 +514,31 @@ const currentInvestigacionesCandidato = computed(() => {
     const partido = currentCandidateData.value?.party;
     if (!candidato) return 0;
     return findInvestigacionesByCandidate({ partido, candidato });
+});
+
+const hasInvestigacionesInfo = computed(() => {
+    const candidato = currentCandidateData.value?.candidate;
+    if (!candidato) return false;
+
+    const candidatoKey = normalizeCandidateName(candidato);
+    if (!candidatoKey) return false;
+
+    const partido = currentCandidateData.value?.party;
+    const partidoKey = normalizePartyForDenuncias(partido);
+
+    if (partidoKey) {
+        return INVESTIGACIONES_CANDIDATO.some((row) => {
+            const rowCandidatoKey = normalizeCandidateName(row?.candidato);
+            if (!rowCandidatoKey || rowCandidatoKey !== candidatoKey) return false;
+            const rowPartidoKey = normalizePartyForDenuncias(row?.partido);
+            return rowPartidoKey && rowPartidoKey === partidoKey;
+        });
+    }
+
+    return INVESTIGACIONES_CANDIDATO.some((row) => {
+        const rowCandidatoKey = normalizeCandidateName(row?.candidato);
+        return rowCandidatoKey && rowCandidatoKey === candidatoKey;
+    });
 });
 
 const hasSelectedCandidate = computed(() => Boolean(currentCandidateData.value));
@@ -637,6 +686,20 @@ const logoPickerOptions = computed(() => {
             };
         })
         .filter((x) => x.id && x.party && x.candidate);
+});
+
+const logoGridOptions = computed(() => {
+    const seen = new Set();
+    return (logoPickerOptions.value ?? [])
+        .filter((option) => {
+            const key = normalizeKey(option.party);
+            if (!key) return false;
+            if (seen.has(key)) return false;
+            seen.add(key);
+            return true;
+        })
+        .slice()
+        .sort((a, b) => a.party.localeCompare(b.party, 'es', { sensitivity: 'base' }));
 });
 
 const candidateInitials = computed(() => {
@@ -912,17 +975,10 @@ const onPlanAmbitoFocusOut = (event) => {
                         <button ref="logoPickerBtnRef" type="button" class="logo-picker-btn"
                             aria-label="Seleccionar partido" :aria-expanded="isLogoPickerOpen"
                             aria-controls="logo-picker-popover" aria-haspopup="dialog" @click="toggleLogoPicker">
-                            <svg width="134" height="89" viewBox="0 0 134 89" fill="none"
-                                xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                                <rect x="0.75" y="0.75" width="132.5" height="87.5" rx="22.25" fill="#2D3436"
-                                    stroke="#F5F5F5" stroke-width="1.5" />
-                                <path
-                                    d="M27 14H69.6396C75.7146 14.0002 80.6396 18.925 80.6396 25V63.4893C80.6396 69.5642 75.7146 74.489 69.6396 74.4893H27C20.9249 74.4893 16 69.5644 16 63.4893V25C16 19.1148 20.6217 14.3094 26.4336 14.0146L27 14Z"
-                                    stroke="#F5F5F5" stroke-width="2" />
-                                <path d="M49.5312 13.5681V75.4895M81.6392 45.949H16.2116" stroke="#F5F5F5"
-                                    stroke-width="2" />
-                                <ellipse cx="106.5" cy="45.6593" rx="13.5" ry="12.6593" fill="#FFD900" />
-                                <path d="M99.75 44.0769L106.5 49.6154L113.25 44.0769" stroke="black" stroke-width="2" />
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"
+                                aria-hidden="true">
+                                <path fill="currentColor"
+                                    d="M5 21h1v-3H3v1q0 .825.588 1.413T5 21m3 0h3v-3H8zm5 0h3v-3h-3zm5 0h1q.825 0 1.413-.587T21 19v-1h-3zM3 6h3V3H5q-.825 0-1.412.588T3 5zm0 5h3V8H3zm0 5h3v-3H3zM8 6h3V3H8zm0 5h3V8H8zm0 5h3v-3H8zm5-10h3V3h-3zm0 5h3V8h-3zm0 5h3v-3h-3zm5-10h3V5q0-.825-.587-1.412T19 3h-1zm0 5h3V8h-3zm0 5h3v-3h-3z" />
                             </svg>
                         </button>
 
@@ -945,6 +1001,20 @@ const onPlanAmbitoFocusOut = (event) => {
 
 
                 </div>
+
+                <div v-if="!hasSelectedCandidate" class="logo-grid-section" aria-label="Elegir partido">
+                    <div class="logo-grid" role="listbox" aria-label="Opciones">
+                        <button v-for="option in logoGridOptions" :key="option.id" type="button"
+                            class="logo-picker-item" @click="selectLogoOption(option)">
+                            <img v-if="option.logoSrc" class="logo-picker-img" :src="option.logoSrc" :alt="option.party"
+                                loading="lazy" />
+                            <span v-else class="logo-picker-fallback" aria-hidden="true">{{
+                                option.party?.slice(0, 2)?.toUpperCase() ?? ''
+                            }}</span>
+                        </button>
+                    </div>
+                </div>
+
                 <div v-if="hasSelectedCandidate" class="bar-opciones" ref="barOpcionesRef">
                     <button :ref="(el) => setBarBtnRef('plan', el)" type="button" class="bar-opcion"
                         :class="{ 'is-active': activeOpcion === 'plan' }" @click="setActiveOpcion('plan')">
@@ -970,12 +1040,13 @@ const onPlanAmbitoFocusOut = (event) => {
                                 <h4 class="plan-label">Ámbito:</h4>
                                 <div class="plan-dropdown">
                                     <button type="button" class="plan-btn plan-btn--ambito" @click="togglePlanAmbito"
-                                        :aria-expanded="isPlanAmbitoOpen" aria-haspopup="listbox">
+                                        :class="{ 'is-open': isPlanAmbitoOpen }" :aria-expanded="isPlanAmbitoOpen"
+                                        aria-haspopup="listbox">
                                         <span class="plan-btn-text">{{ planAmbitoLabel }}</span>
                                         <svg class="plan-btn-icon" width="23" height="14" viewBox="0 0 23 14"
                                             fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                                            <path d="M2.5 2.5L11.5 11.5L20.5 2.5" stroke="var(--primary-yellow)"
-                                                stroke-width="5" stroke-linecap="round" stroke-linejoin="round" />
+                                            <path d="M2.5 2.5L11.5 11.5L20.5 2.5" stroke="currentColor" stroke-width="5"
+                                                stroke-linecap="round" stroke-linejoin="round" />
                                         </svg>
                                     </button>
 
@@ -1130,10 +1201,10 @@ const onPlanAmbitoFocusOut = (event) => {
                         <h4 class="denuncia-label">Partido:</h4>
                         <h4 class="denuncia-value">{{ currentCandidateData?.party ?? '' }}</h4>
                     </div>
-                    <!-- <div class="denuncia-line">
+                    <div v-if="hasInvestigacionesInfo" class="denuncia-line">
                         <h4 class="denuncia-label">Investigaciones candidato:</h4>
                         <h4 class="denuncia-value">{{ currentInvestigacionesCandidato }}</h4>
-                    </div> -->
+                    </div>
                     <div class="denuncia-line">
                         <h4 class="denuncia-label">Condenas miembros partido:</h4>
                         <h4 class="denuncia-value">{{ currentDenunciasPartido?.condenados ?? 0 }}</h4>
@@ -1354,6 +1425,22 @@ const onPlanAmbitoFocusOut = (event) => {
     gap: 36px;
     width: 100%;
     margin: 0 auto;
+    min-height: 89px;
+}
+
+.logo-grid-section {
+    margin-top: 18px;
+    width: 100%;
+}
+
+.logo-grid {
+    --logo-cell: 64px;
+    --logo-gap: 12px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, var(--logo-cell));
+    gap: var(--logo-gap);
+    justify-content: center;
+    width: 100%;
 }
 
 .search-autocomplete {
@@ -1369,19 +1456,40 @@ const onPlanAmbitoFocusOut = (event) => {
 }
 
 .logo-picker-btn {
-    border: 0;
-    background: transparent;
+    width: 62px;
+    height: 62px;
+    box-sizing: border-box;
+    border: 1.5px solid var(--primary-white);
+    background: var(--primary-dark);
     padding: 0;
     margin: 0;
     cursor: pointer;
     line-height: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--primary-white);
+    border-radius: 79px;
+    transition: border 0.2s;
+}
+
+.logo-picker-btn svg {
+    width: 34px;
+    height: 34px;
     display: block;
 }
 
 .logo-picker-btn:focus-visible {
     outline: 2px solid var(--primary-yellow);
     outline-offset: 4px;
-    border-radius: 24px;
+    border-radius: 79px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .logo-picker-btn:hover {
+        border-color: var(--primary-yellow);
+        color: var(--primary-yellow);
+    }
 }
 
 .logo-picker-popover {
@@ -1455,7 +1563,7 @@ const onPlanAmbitoFocusOut = (event) => {
 
 .search-icon {
     position: absolute;
-    left: 28px;
+    left: 20px;
     top: 50%;
     transform: translateY(-50%);
     color: var(--primary-white);
@@ -1465,9 +1573,15 @@ const onPlanAmbitoFocusOut = (event) => {
 
 }
 
+.search-icon,
+.clear-icon {
+    width: 20px;
+    height: 20px;
+}
+
 .clear-icon-btn {
     position: absolute;
-    right: 16px;
+    right: 12px;
     top: 50%;
     transform: translateY(-50%);
     padding: 0;
@@ -1533,8 +1647,8 @@ const onPlanAmbitoFocusOut = (event) => {
     display: block;
     margin: 0 auto;
     border-radius: 79px;
-    height: 89px;
-    padding: 0 60px 0 76px;
+    height: 62px;
+    padding: 0 44px 0 54px;
     font-size: 24px;
     font-weight: 400;
     outline: none;
@@ -1821,16 +1935,18 @@ const onPlanAmbitoFocusOut = (event) => {
 
 .plan-btn--ambito {
     height: 42px;
-    padding: 0;
+    padding: 0 18px;
     border: 0;
-    border-radius: 0;
-    background: transparent;
+    border-radius: 999px;
+    background: var(--primary-yellow);
+    color: var(--primary-black);
     display: inline-flex;
     align-items: center;
+    gap: 8px;
 }
 
 .plan-btn--ambito .plan-btn-text {
-    font-size: 24.19px;
+    font-size: 18px;
     padding-left: 0;
 }
 
@@ -1844,6 +1960,21 @@ const onPlanAmbitoFocusOut = (event) => {
 
 .plan-btn-icon {
     display: block;
+}
+
+.plan-btn--ambito .plan-btn-icon {
+    transform-origin: center;
+    transition: transform 180ms ease;
+}
+
+.plan-btn--ambito.is-open .plan-btn-icon {
+    transform: rotate(180deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .plan-btn--ambito .plan-btn-icon {
+        transition: none;
+    }
 }
 
 .plan-resumen-icon {
@@ -2099,6 +2230,12 @@ const onPlanAmbitoFocusOut = (event) => {
         justify-content: space-between;
         flex-wrap: nowrap;
         gap: 10px;
+        min-height: 72px;
+    }
+
+    .logo-grid {
+        --logo-cell: 52px;
+        --logo-gap: 8px;
     }
 
     .search-autocomplete {
@@ -2111,8 +2248,8 @@ const onPlanAmbitoFocusOut = (event) => {
     }
 
     .logo-picker-btn svg {
-        width: clamp(90px, 26vw, 120px);
-        height: auto;
+        width: 28px;
+        height: 28px;
     }
 
     .search-side-svg {
@@ -2237,7 +2374,7 @@ const onPlanAmbitoFocusOut = (event) => {
     }
 
     .plan-btn--ambito .plan-btn-text {
-        font-size: 20px;
+        font-size: 16px;
     }
 
     .plan-menu {
@@ -2288,18 +2425,29 @@ const onPlanAmbitoFocusOut = (event) => {
     }
 
     .circular-search {
-        height: 72px;
+        height: 50px;
         font-size: 18px;
-        padding: 0 44px 0 52px;
+        padding: 0 34px 0 42px;
         border-radius: 79px;
     }
 
+    .logo-picker-btn {
+        width: 50px;
+        height: 50px;
+    }
+
     .search-icon {
-        left: 18px;
+        left: 14px;
     }
 
     .clear-icon-btn {
-        right: 12px;
+        right: 10px;
+    }
+
+    .search-icon,
+    .clear-icon {
+        width: 18px;
+        height: 18px;
     }
 
     .candidatos-title {
